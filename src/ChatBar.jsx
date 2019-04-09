@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
-const ChatBar = ({ currentUser }) => {
+const ChatBar = ({ currentUser, addNewMessage }) => {
+  // Event listener which fires when a user hits enter to submit a new message.
   const newMessage = e => {
     if (e.key === "Enter") {
       const messageContent = e.target.value;

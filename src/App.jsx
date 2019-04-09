@@ -23,12 +23,41 @@ class App extends Component {
       ]
     };
   }
+
+  componentDidMount() {
+    console.log("componentDidMount <App />");
+    setTimeout(() => {
+      console.log("Simulating incoming message");
+      const newMessage = {
+        id: 3,
+        username: "Michelle",
+        content: "Hello there!"
+      };
+      const messages = this.state.messages.concat(newMessage);
+      this.setState({ messages });
+    }, 3000);
+  }
+
+  addNewMessage = content => {
+    const username = this.state.currentUser.name;
+    const randomId = () =>
+      Math.random()
+        .toString(36)
+        .substr(2, 6);
+    const newMessage = {
+      id: randomId(),
+      username,
+      content: content
+    };
+    this.setState({ messages: [...this.state.messages, newMessage] });
+  }
+
   render() {
     return (
       <div>
         <Navbar />
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser.name} />
+        <ChatBar currentUser={this.state.currentUser.name} addNewMessage={this.addNewMessage} />
       </div>
     );
   }
