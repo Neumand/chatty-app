@@ -26,7 +26,7 @@ class App extends Component {
       <div>
         <Navbar />
         <MessageList messages={this.state.messages} />
-        <ChatBar />
+        <ChatBar currentUser={this.state.currentUser.name} />
       </div>
     );
   }
