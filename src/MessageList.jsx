@@ -3,7 +3,7 @@ import Message from "./Message.jsx";
 
 const MessageList = ({ messages }) => {
   const messageList = messages.map(message =>
-    <Message content={message.content} username={message.username} />);
+    <Message key={message.id} content={message.content} username={message.username} />);
   return (
       <main>{messageList}</main>
   );

@@ -10,7 +10,6 @@ const Message = ({ username, content }) => {
         </span>
       </div>
       <div className="message system">
-        Anonymous1 changed their name to nomnom.
       </div>
     </div>
   );
