@@ -18,7 +18,7 @@ const getOnlineUsers = (client, onlineUsers) => {
     type: 'incomingUser',
     userCount: onlineUsers
   }
-  client.send(JSON.stringify(outgoingMessage));
+  wss.broadcast(JSON.stringify(outgoingMessage));
 }
 
 wss.broadcast = function broadcast(data) {
