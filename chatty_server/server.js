@@ -1,13 +1,13 @@
-const express = require("express");
-const SocketServer = require("ws").Server;
+const express = require('express');
+const SocketServer = require('ws').Server;
 const uuidv4 = require('uuid');
 
 const PORT = 3001;
 
 const server = express()
-  .use(express.static("public"))
-  .listen(PORT, "0.0.0.0", "localhost", () =>
-    console.log(`Listening on port ${PORT}`)
+  .use(express.static('public'))
+  .listen(PORT, '0.0.0.0', 'localhost', () =>
+    console.log(`Listening on port ${PORT}`),
   );
 
 const wss = new SocketServer({ server });
@@ -20,28 +20,30 @@ wss.broadcast = function broadcast(data) {
   });
 };
 
-wss.on("connection", ws => {
-  console.log("Client connected");
+wss.on('connection', ws => {
+  console.log('Client connected');
 
-  ws.on('message', (message) => {
+  ws.on('message', message => {
     const userMessage = JSON.parse(message);
-    let { username, content, type } = userMessage;
 
     // Perform different task depending on the message type.
-    switch(type) {
+    switch (userMessage.type) {
       case 'postMessage':
-      userMessage.type = 'incomingMessage',
-      userMessage.id = uuidv4();
-      wss.broadcast(JSON.stringify(userMessage));
-      break;
+        (userMessage.type = 'incomingMessage'), (userMessage.id = uuidv4());
+        wss.broadcast(JSON.stringify(userMessage));
+        break;
+
+      case 'postNotification':
+        (userMessage.type = 'incomingNotification'),
+          wss.broadcast(JSON.stringify(userMessage));
+        break;
 
       default:
-      console.log('Cannot read message type');
-
+        console.log('Cannot read message type');
     }
-  })
+  });
 
-  ws.on("close", () => {
-    console.log("Client disconnected");
+  ws.on('close', () => {
+    console.log('Client disconnected');
   });
 });
