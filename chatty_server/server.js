@@ -1,5 +1,6 @@
 const express = require("express");
 const SocketServer = require("ws").Server;
+const uuidv4 = require('uuid');
 
 const PORT = 3001;
 
@@ -11,21 +12,25 @@ const server = express()
 
 const wss = new SocketServer({ server });
 
-// Function to pass message information to the client.
-const connectClient = (client, nbClients) => {
-  const messageInfo = {
-    id: id,
-    username: "Bob"
-  };
-};
-
 wss.on("connection", ws => {
   console.log("Client connected");
 
   ws.on('message', (message) => {
     const userMessage = JSON.parse(message);
-    const { username, content } = userMessage;
-    console.log(`User ${username} said ${content}`);
+    let { username, content, type } = userMessage;
+
+    // Perform different task depending on the message type.
+    switch(type) {
+      case 'postMessage':
+      type = 'incoming message',
+      userMessage.id = uuidv4();
+      wss.broadcast(JSON.stringify(userMessage));
+      break;
+
+      default:
+      console.log('Cannot read message type');
+
+    }
   })
 
   ws.on("close", () => {
