@@ -9,6 +9,7 @@ class App extends Component {
     this.state = {
       currentUser: { name: 'Anonymous' },
       messages: [],
+      userCount: 0,
     };
   }
 
@@ -23,7 +24,7 @@ class App extends Component {
 
     this.clientSocket.onmessage = e => {
       const incomingData = JSON.parse(e.data);
-      let { id, username, content, type } = incomingData;
+      let { id, username, content, type, userCount } = incomingData;
 
       switch (type) {
         // Update the state with new message data.
@@ -39,6 +40,13 @@ class App extends Component {
             messages: [...this.state.messages, { type, content }],
           });
           break;
+
+        case 'incomingUser':
+          this.setState({
+            userCount,
+          });
+          break;
+
         default:
           console.log('Cannot read message type');
       }
@@ -81,7 +89,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbar userCount={this.state.userCount} />
         <MessageList messages={this.state.messages} />
         <ChatBar
           currentUser={this.state.currentUser.name}
