@@ -1,49 +1,50 @@
-import React, { Component } from "react";
-import Navbar from "./Navbar.jsx";
-import MessageList from "./MessageList.jsx";
-import ChatBar from "./ChatBar.jsx";
+import React, { Component } from 'react';
+import Navbar from './Navbar.jsx';
+import MessageList from './MessageList.jsx';
+import ChatBar from './ChatBar.jsx';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      currentUser: { name: "Bob" },
-      messages: [
-        {
-          id: 1,
-          username: "Bob",
-          content: "Has anyone seen my marbles?"
-        },
-        {
-          id: 2,
-          username: "Anonymous",
-          content:
-            "No, I think you lost them. You lost your marbles, Bob. You lost them for good."
-        }
-      ]
+      currentUser: { name: 'Bob' },
+      messages: [],
     };
   }
 
   componentDidMount() {
-    console.log("componentDidMount <App />");
+    console.log('componentDidMount <App />');
 
-    this.clientSocket = new WebSocket("ws://localhost:3001");
+    this.clientSocket = new WebSocket('ws://localhost:3001');
 
     this.clientSocket.onopen = e => {
-      console.log("Connected to the server");
+      console.log('Connected to the server');
     };
 
     this.clientSocket.onmessage = e => {
-      console.log("This is a message");
+      const incomingMessage = JSON.parse(e.data);
+      let { id, username, content, type } = incomingMessage;
+
+      switch (type) {
+        case 'incomingMessage':
+          this.setState({
+            messages: [...this.state.messages, { id, username, content }],
+          });
+          break;
+        default:
+          console.log('Cannot read message type');
+      }
     };
   }
 
+  // Function to pass user message data to the server.
   addNewMessage = content => {
     const username = this.state.currentUser.name;
 
     const outgoingMessage = {
       username,
-      content
+      content,
+      type: 'postMessage',
     };
 
     this.clientSocket.send(JSON.stringify(outgoingMessage));
