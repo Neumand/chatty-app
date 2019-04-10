@@ -55,5 +55,6 @@ wss.on('connection', ws => {
 
   ws.on('close', () => {
     console.log('Client disconnected');
+    getOnlineUsers(ws, wss.clients.size);
   });
 });
