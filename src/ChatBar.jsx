@@ -8,12 +8,17 @@ class ChatBar extends Component {
     };
   }
 
-  // Updates the local state to the inputted username and passes to App through updateUserName function.
+  // Updates the local state to the inputted username.
   onUserChange = e => {
     const username = e.target.value;
     this.setState({ username });
-    this.props.updateUsername(username);
-    console.log(username);
+  };
+
+  // Pass the updated username to App.
+  onUserConfirm = e => {
+    if (e.key === 'Enter') {
+      this.props.updateUsername(this.state.username);
+    }
   };
 
   // Event listener which fires when a user hits enter to submit a new message. Resets the input on submission.
@@ -33,6 +38,7 @@ class ChatBar extends Component {
           placeholder='Your name (or anonymous)'
           value={this.state.username}
           onChange={this.onUserChange}
+          onKeyDown={this.onUserConfirm}
         />
         <input
           type='text'
