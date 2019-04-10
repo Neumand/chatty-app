@@ -13,7 +13,7 @@ const server = express()
 const wss = new SocketServer({ server });
 
 // Passing the number of users online to the client-side.
-const getOnlineUsers = (client, onlineUsers) => {
+const getOnlineUsers = (onlineUsers) => {
   const outgoingMessage = {
     type: 'incomingUser',
     userCount: onlineUsers
@@ -31,7 +31,7 @@ wss.broadcast = function broadcast(data) {
 
 wss.on('connection', ws => {
   console.log('Client connected');
-  getOnlineUsers(ws, wss.clients.size);
+  getOnlineUsers(wss.clients.size);
 
   ws.on('message', message => {
     const userMessage = JSON.parse(message);
@@ -55,6 +55,6 @@ wss.on('connection', ws => {
 
   ws.on('close', () => {
     console.log('Client disconnected');
-    getOnlineUsers(ws, wss.clients.size);
+    getOnlineUsers(wss.clients.size);
   });
 });
