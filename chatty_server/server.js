@@ -12,6 +12,14 @@ const server = express()
 
 const wss = new SocketServer({ server });
 
+wss.broadcast = function broadcast(data) {
+  wss.clients.forEach(function each(client) {
+    // if (client.readyState === SocketServer.OPEN) {
+    client.send(data);
+    // }
+  });
+};
+
 wss.on("connection", ws => {
   console.log("Client connected");
 
@@ -22,7 +30,7 @@ wss.on("connection", ws => {
     // Perform different task depending on the message type.
     switch(type) {
       case 'postMessage':
-      type = 'incoming message',
+      userMessage.type = 'incomingMessage',
       userMessage.id = uuidv4();
       wss.broadcast(JSON.stringify(userMessage));
       break;
