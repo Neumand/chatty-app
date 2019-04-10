@@ -7,7 +7,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      currentUser: { name: 'Bob' },
+      currentUser: { name: 'Anonymous' },
       messages: [],
     };
   }
@@ -37,6 +37,13 @@ class App extends Component {
     };
   }
 
+  // Update the username in the state to accurately display the correct user when posting a message.
+  updateUsername = username => {
+    username === ''
+      ? this.setState({ currentUser: { name: 'Anonymous' } })
+      : this.setState({ currentUser: { name: username } });
+  };
+
   // Function to pass user message data to the server.
   addNewMessage = content => {
     const username = this.state.currentUser.name;
@@ -50,18 +57,6 @@ class App extends Component {
     this.clientSocket.send(JSON.stringify(outgoingMessage));
   };
 
-  //   const randomId = () =>
-  //     Math.random()
-  //       .toString(36)
-  //       .substr(2, 6);
-  //   const newMessage = {
-  //     id: randomId(),
-  //     username,
-  //     content: content
-  //   };
-  //   this.setState({ messages: [...this.state.messages, newMessage] });
-  // };
-
   render() {
     return (
       <div>
@@ -70,6 +65,7 @@ class App extends Component {
         <ChatBar
           currentUser={this.state.currentUser.name}
           addNewMessage={this.addNewMessage}
+          updateUsername={this.updateUsername}
         />
       </div>
     );
