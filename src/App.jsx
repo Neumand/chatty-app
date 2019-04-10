@@ -22,13 +22,21 @@ class App extends Component {
     };
 
     this.clientSocket.onmessage = e => {
-      const incomingMessage = JSON.parse(e.data);
-      let { id, username, content, type } = incomingMessage;
+      const incomingData = JSON.parse(e.data);
+      let { id, username, content, type } = incomingData;
 
       switch (type) {
+        // Update the state with new message data.
         case 'incomingMessage':
           this.setState({
-            messages: [...this.state.messages, { id, username, content }],
+            messages: [...this.state.messages, { type, content, username, id }],
+          });
+          break;
+
+        // Update the state with new notification data.
+        case 'incomingNotification':
+          this.setState({
+            messages: [...this.state.messages, { type, content }],
           });
           break;
         default:
@@ -38,10 +46,14 @@ class App extends Component {
   }
 
   // Update the username in the state to accurately display the correct user when posting a message.
-  updateUsername = username => {
-    username === ''
-      ? this.setState({ currentUser: { name: 'Anonymous' } })
-      : this.setState({ currentUser: { name: username } });
+  updateUsername = user => {
+    let username = '';
+    !user ? (username = 'Anonymous') : (username = user);
+    const message = `${
+      this.state.currentUser.name
+    } changed their name to ${username}.`;
+    this.sendUserNotification(message);
+    this.setState({ currentUser: { name: user } });
   };
 
   // Function to pass user message data to the server.
@@ -54,6 +66,15 @@ class App extends Component {
       type: 'postMessage',
     };
 
+    this.clientSocket.send(JSON.stringify(outgoingMessage));
+  };
+
+  // Send a notification to the server.
+  sendUserNotification = message => {
+    const outgoingMessage = {
+      content: message,
+      type: 'postNotification',
+    };
     this.clientSocket.send(JSON.stringify(outgoingMessage));
   };
 
