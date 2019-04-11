@@ -10,7 +10,7 @@ const Navbar = ({ userCount }) => {
       </a>
       <img
         className="navbar-brand"
-        src='https://cdn2.iconfinder.com/data/icons/icontober/64/Inkcontober_Misterious-512.png'
+        src='https://cdn3.iconfinder.com/data/icons/transformers/network-service.png'
         alt='UFO'
       />
       <p className='navbar-online-users'>{`${userCount} online ${user}`}</p>
