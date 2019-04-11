@@ -10,10 +10,11 @@ const MessageList = ({ messages }) => {
           key={message.id}
           content={message.content}
           username={message.username}
+          emoji={message.emoji}
         />
       );
     } else {
-      return <Notification notification={message.content} />;
+      return <Notification key={message.id} notification={message.content} />;
     }
   });
   return (
