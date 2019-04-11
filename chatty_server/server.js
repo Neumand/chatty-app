@@ -75,7 +75,6 @@ wss.on('connection', ws => {
             title: giphy.title,
             imageUrl: giphy.images.original.url,
           };
-          console.log(userMessage);
           wss.broadcast(JSON.stringify(userMessage));
         });
         break;
