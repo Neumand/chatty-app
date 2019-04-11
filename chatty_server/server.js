@@ -23,12 +23,21 @@ const getOnlineUsers = onlineUsers => {
   wss.broadcast(JSON.stringify(outgoingMessage));
 };
 
-const getGIF = gif => {
-  const requestOptions = {
-    url: 'https://api.giphy.com/v1/gifs/search?api_key=NVwuGNcJfWsoJomoX7GULlFLEV7rLGL7&q=space',
+// Get a random space-related GIF from Giphy API.
+const getGiphy = cb => {
+  reqOptions = {
+    url: `https://api.giphy.com/v1/gifs/search?api_key=${
+      process.env.GIPHY_API_KEY
+    }&q=space`,
+    json: true,
+  };
 
-  }
-}
+  request(reqOptions, (err, req, images) => {
+    const { data } = images;
+    const randomIndex = Math.floor(Math.random() * data.length);
+    cb(data[randomIndex]);
+  });
+};
 
 wss.broadcast = function broadcast(data) {
   wss.clients.forEach(function each(client) {
@@ -59,7 +68,15 @@ wss.on('connection', ws => {
 
       case 'postGIF':
         (userMessage.type = 'incomingGIF'), (userMessage.id = uuidv4());
-        wss.broadcast(JSON.stringify(userMessage));
+        getGiphy(giphy => {
+          userMessage.content = {
+            title: giphy.title,
+            imageUrl: giphy.images.original.url,
+          };
+          console.log(userMessage);
+          wss.broadcast(JSON.stringify(userMessage));
+        });
+        break;
       default:
         console.log('Cannot read message type');
     }
