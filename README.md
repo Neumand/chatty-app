@@ -1,41 +1,26 @@
-React Boilerplate
+G-Chat
 =====================
 
-A minimal and light dev environment for ReactJS.
+G-Chat is a simple real-time chat application with a space theme! Users can communicate with each other anonymously or with an alias (no login required). Built using React.
 
-### Usage
+## Stack
 
-Clone the boilerplate and create your own git repo.
+* Webpack &rarr; Babel, JSX, ES6, webpack dev server
+* WebSockets (ws server-side, WebSocket client-side)
+* React
+* Express
+* Node
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+## Features
 
-Install the dependencies and start the server.
+* Communicate in real-time with other users (clients)
+* Users are assigned one of several space-themed emojis when they change their alias (👾, 🤖, 👽, 🛸, 🚀, 🌠)
+* Typing in `/gif` in the chatbar will generate a random space-themed GIF
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
+## Final Product
 
-### Static Files
-
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
+!['G-Chat'](https://github.com/Neumand/g-chat/blob/master/build/images/G-Chat1.png?raw=true)
+!['Side-by-side comparison'](https://github.com/Neumand/g-chat/blob/master/build/images/G-Chat2.png?raw=true)
 
 ### Dependencies
 
@@ -43,3 +28,7 @@ npm run lint
 * Webpack
 * [babel-loader](https://github.com/babel/babel-loader)
 * [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+* Dotenv
+* Request
+* Uuid
+* Express
