@@ -25,10 +25,12 @@ const getOnlineUsers = onlineUsers => {
 
 // Get a random space-related GIF from Giphy API.
 const getGiphy = cb => {
+  const searchContent = ['space', 'galactic', 'aliens', 'interstellar'];
+  const topic = searchContent[Math.floor(Math.random() * 4)];
   reqOptions = {
     url: `https://api.giphy.com/v1/gifs/search?api_key=${
       process.env.GIPHY_API_KEY
-    }&q=space`,
+    }&q=${topic}`,
     json: true,
   };
 
