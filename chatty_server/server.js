@@ -1,6 +1,8 @@
 const express = require('express');
 const SocketServer = require('ws').Server;
 const uuidv4 = require('uuid');
+const request = require('request');
+require('dotenv').config();
 
 const PORT = 3001;
 
@@ -20,6 +22,13 @@ const getOnlineUsers = onlineUsers => {
   };
   wss.broadcast(JSON.stringify(outgoingMessage));
 };
+
+const getGIF = gif => {
+  const requestOptions = {
+    url: 'https://api.giphy.com/v1/gifs/search?api_key=NVwuGNcJfWsoJomoX7GULlFLEV7rLGL7&q=space',
+
+  }
+}
 
 wss.broadcast = function broadcast(data) {
   wss.clients.forEach(function each(client) {
@@ -44,10 +53,13 @@ wss.on('connection', ws => {
         break;
 
       case 'postNotification':
-        (userMessage.type = 'incomingNotification'),
-          wss.broadcast(JSON.stringify(userMessage));
+        userMessage.type = 'incomingNotification';
+        wss.broadcast(JSON.stringify(userMessage));
         break;
 
+      case 'postGIF':
+        (userMessage.type = 'incomingGIF'), (userMessage.id = uuidv4());
+        wss.broadcast(JSON.stringify(userMessage));
       default:
         console.log('Cannot read message type');
     }
