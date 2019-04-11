@@ -57,8 +57,8 @@ class App extends Component {
   }
 
   getEmoji = () => {
-    const emojiArr = ['👾', '🤖', '👽', '👹', '👺'];
-    const randomEmoji = emojiArr[Math.floor(Math.random() * 5)];
+    const emojiArr = ['👾', '🤖', '👽', '🛸', '🚀', '🌠'];
+    const randomEmoji = emojiArr[Math.floor(Math.random() * 6)];
     return randomEmoji;
   };
 
