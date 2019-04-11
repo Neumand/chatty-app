@@ -6,7 +6,7 @@ const Navbar = ({ userCount }) => {
   return (
     <nav className='navbar'>
       <a href='/' className='navbar-brand'>
-        Chatty
+        G-Chat
       </a>
       <img
         className="navbar-brand"

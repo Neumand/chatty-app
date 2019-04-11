@@ -38,7 +38,8 @@ const MessageList = ({ messages }) => {
   });
   return (
     <main>
-      <h1 className='message-username'>Welcome to the Chatty Community!</h1>
+      <h1 className='message-username'>Welcome to the G-Chat community!</h1>
+      <p className='message-username'>Your one-stop shop for intergalactic gossip.</p>
       {messageList}
     </main>
   );
