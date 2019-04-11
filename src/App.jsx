@@ -29,6 +29,7 @@ class App extends Component {
       switch (type) {
         // Update the state with new message data.
         case 'incomingMessage':
+        case 'incomingGIF':
           this.setState({
             messages: [
               ...this.state.messages,
@@ -79,12 +80,14 @@ class App extends Component {
   addNewMessage = content => {
     const username = this.state.currentUser.name;
     const emoji = this.state.currentUser.emoji;
+    let type = '';
+    content === '/gif' ? (type = 'postGIF') : (type = 'postMessage');
 
     const outgoingMessage = {
       username,
       content,
       emoji,
-      type: 'postMessage',
+      type,
     };
 
     this.clientSocket.send(JSON.stringify(outgoingMessage));
