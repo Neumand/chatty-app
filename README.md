@@ -28,6 +28,14 @@ G-Chat is a simple real-time chat application with a space theme! Users can comm
 * Run both the WebPack server and ws server (located in g-chat_server folder): `npm start`
 * Open as many browser windows as you like at `localhost:3000` to experiment with functionalities
 
+### Using Giphy API to Create GIFs
+
+* In order to generate space GIFs (`/gif`) with Giphy's API you will need to create your own (free) API key
+* Visit https://developers.giphy.com/, create an account, and click on 'Create an App'
+* Once you have obtained your key, create a `.env` file in the g-chat_server folder (see `.env.example` file for an example of how to structure it)
+* Enjoy!
+
+
 ### Dependencies
 
 * React
